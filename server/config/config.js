@@ -2,6 +2,7 @@
 // Variables
 // ==================== 
 const development = 'dev';
+const production = 'pro';
 
 
 // ====================
@@ -19,10 +20,8 @@ process.env.NODE_ENV = process.env.NODE_ENV || development;
 // ===================
 // Base de datos
 // ===================
-let urlMongoDB;
-/*
+
 if (process.env.NODE_ENV === development)
-    urlMongoDB = 'mongodb://localhost:27017/cafe';
-else*/
-urlMongoDB = 'mongodb+srv://admin:deme251193@cluster0.ywpd4.mongodb.net/cafe?retryWrites=true&w=majority';
-process.env.URL_MONGO = urlMongoDB;
+    process.env.URL_MONGO = 'mongodb://localhost:27017/cafe';
+else
+    process.env.URL_MONGO = process.env.URL_MONGO_PROD;
