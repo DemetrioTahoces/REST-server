@@ -2,11 +2,12 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const _ = require('underscore');
 const Usuario = require('../models/usuario');
+const { verificaToken, verificaAdminRole } = require('../middlewares/autenticacion')
 const app = express();
 
 const route = '/usuario';
 
-app.get(route, function(req, res) {
+app.get(route, verificaToken, (req, res) => {
 
     const condicion = {
         estado: true
@@ -24,7 +25,7 @@ app.get(route, function(req, res) {
 
             if (error) {
 
-                res.status(400).json({
+                res.status(500).json({
                     ok: false,
                     error
                 });
@@ -42,7 +43,7 @@ app.get(route, function(req, res) {
         });
 });
 
-app.post(route, function(req, res) {
+app.post(route, [verificaToken, verificaAdminRole], function(req, res) {
 
     const body = req.body;
 
@@ -72,7 +73,7 @@ app.post(route, function(req, res) {
     });
 });
 
-app.put(`${route}/:id`, function(req, res) {
+app.put(`${route}/:id`, [verificaToken, verificaAdminRole], function(req, res) {
 
     const id = req.params.id;
     const body = _.pick(req.body, ['nombre', 'email', 'img', 'role', 'estado']);
@@ -115,7 +116,7 @@ app.put(`${route}/:id`, function(req, res) {
     });
 });
 
-app.delete(`${route}/:id`, function(req, res) {
+app.delete(`${route}/:id`, [verificaToken, verificaAdminRole], function(req, res) {
 
     const id = req.params.id;
 
