@@ -42,4 +42,4 @@ else
 // ===================
 // Entorno
 // ===================
-process.env.CLIENT_ID = process.env.CLIENT_ID || '266309840529-d6860tpptokhk3um0llt8gf6ki4f53ai.apps.googleusercontent.com';
+process.env.CLIENT_ID = process.env.CLIENT_ID || '266309840529-edhaqb2o48toa8euif2nfpu2lnerjg2g.apps.googleusercontent.com';
