@@ -25,21 +25,19 @@ app.get(route, verificaToken, (req, res) => {
 
             if (error) {
 
-                res.status(500).json({
+                return res.status(500).json({
                     ok: false,
                     error
                 });
-
-            } else {
-
-                Usuario.countDocuments(condicion, (_, cuenta) => {
-                    res.json({
-                        ok: true,
-                        num: cuenta,
-                        usuarios
-                    });
-                });
             }
+
+            return Usuario.countDocuments(condicion, (_, cuenta) => {
+                res.json({
+                    ok: true,
+                    num: cuenta,
+                    usuarios
+                });
+            });
         });
 });
 
@@ -58,18 +56,16 @@ app.post(route, [verificaToken, verificaAdminRole], function(req, res) {
 
         if (error) {
 
-            res.status(400).json({
+            return res.status(400).json({
                 ok: false,
                 error
             });
-
-        } else {
-
-            res.json({
-                ok: true,
-                usuario: usuarioDB
-            });
         }
+
+        return res.status(201).json({
+            ok: true,
+            usuario: usuarioDB
+        });
     });
 });
 
@@ -90,29 +86,25 @@ app.put(`${route}/:id`, [verificaToken, verificaAdminRole], function(req, res) {
 
             if (error.kind === 'ObjectId') {
 
-                res.status(404).json({
+                return res.status(404).json({
                     ok: false,
                     error: {
                         message: 'Usuario no encontrado'
                     }
                 });
-
-            } else {
-
-                res.status(400).json({
-                    ok: false,
-                    error
-                });
             }
 
-        } else {
-
-            res.json({
-                ok: true,
-                usuario: usuarioDB
+            return res.status(400).json({
+                ok: false,
+                error
             });
 
         }
+
+        return res.json({
+            ok: true,
+            usuario: usuarioDB
+        });
     });
 });
 
@@ -134,61 +126,26 @@ app.delete(`${route}/:id`, [verificaToken, verificaAdminRole], function(req, res
 
             if (error.kind === 'ObjectId') {
 
-                res.status(404).json({
+                return res.status(404).json({
                     ok: false,
                     error: {
                         message: 'Usuario no encontrado'
                     }
                 });
-
-            } else {
-
-                res.status(400).json({
-                    ok: false,
-                    error
-                });
             }
 
-        } else {
-
-            res.json({
-                ok: true,
-                usuario: usuarioDB
+            return res.status(400).json({
+                ok: false,
+                error
             });
         }
+
+        return res.json({
+            ok: true,
+            usuario: usuarioDB,
+            message: 'Usuario Eliminado'
+        });
     });
-
-    /*
-    Usuario.findByIdAndRemove(id, (error, usuarioBorrado) => {
-
-        if (error) {
-
-            if (error.kind === 'ObjectId') {
-
-                res.status(404).json({
-                    ok: false,
-                    error: {
-                        message: 'Usuario no encontrado'
-                    }
-                });
-
-            } else {
-
-                res.status(400).json({
-                    ok: false,
-                    error
-                });
-            }
-
-        } else {
-
-            res.json({
-                ok: true,
-                usuario: usuarioBorrado
-            });
-        }
-    });
-    */
 });
 
 module.exports = app
