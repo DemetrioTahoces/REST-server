@@ -9,7 +9,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 //Parsea Json
 app.use(bodyParser.json());
-//servicios
+//Servicios
 app.use(require('./routes/index'));
 
 //Habilitar carpeta public

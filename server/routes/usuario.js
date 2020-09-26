@@ -1,7 +1,9 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const _ = require('underscore');
+
 const Usuario = require('../models/usuario');
+
 const { verificaToken, verificaAdminRole } = require('../middlewares/autenticacion')
 const app = express();
 
@@ -18,7 +20,7 @@ app.get(route, verificaToken, (req, res) => {
     let limite = req.query.limite || 5;
     limite = Number(limite);
 
-    Usuario.find(condicion, 'nombre email role estado google')
+    Usuario.find(condicion, 'nombre email role estado google img')
         .limit(limite)
         .skip(desde)
         .exec((error, usuarios) => {

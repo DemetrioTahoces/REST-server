@@ -6,7 +6,11 @@ const jwt = require('jsonwebtoken');
 
 const verificaToken = (req, res, next) => {
 
-    let token = req.get('token');
+    const token = req.get('token');
+    verify(token, req, res, next);
+}
+
+const verify = (token, req, res, next) => {
 
     jwt.verify(token, process.env.SEED, (error, decoded) => {
 
@@ -39,7 +43,15 @@ const verificaAdminRole = (req, res, next) => {
     next();
 }
 
+const verificaTokenImg = (req, res, next) => {
+
+    const token = req.query.token;
+    verify(token, req, res, next);
+}
+
+
 module.exports = {
     verificaToken,
-    verificaAdminRole
+    verificaAdminRole,
+    verificaTokenImg
 }

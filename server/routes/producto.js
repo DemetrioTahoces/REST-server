@@ -1,6 +1,8 @@
 const express = require('express');
 const _ = require('underscore');
+
 const Producto = require('../models/producto');
+
 const { verificaToken } = require('../middlewares/autenticacion')
 const app = express();
 
@@ -24,7 +26,7 @@ app.get(route, verificaToken, (req, res) => {
         nombre: regex
     }
 
-    Producto.find(condicion, 'nombre precioUni descripcion disponible categoria usuario')
+    Producto.find(condicion, 'nombre precioUni descripcion disponible categoria usuario img')
         .populate('usuario', 'nombre email')
         .populate('categoria', 'descripcion')
         .limit(limite)
@@ -56,7 +58,7 @@ app.get(route + '/:id', verificaToken, (req, res) => {
 
     const id = req.params.id;
 
-    Producto.findById(id, 'nombre precioUni descripcion disponible categoria usuario')
+    Producto.findById(id, 'nombre precioUni descripcion disponible categoria usuario img')
         .populate('usuario', 'nombre email')
         .populate('categoria', 'descripcion')
         .exec((error, producto) => {
@@ -72,7 +74,7 @@ app.get(route + '/:id', verificaToken, (req, res) => {
                     });
                 }
 
-                return res.status(400).json({
+                return res.status(500).json({
                     ok: false,
                     error
                 });
@@ -113,7 +115,7 @@ app.post(route, verificaToken, (req, res) => {
 
         return res.status(201).json({
             ok: true,
-            producto: _.pick(productoDB, ['_id', 'nombre', 'precioUni', 'descripcion', 'disponible', 'categoria', "usuario"])
+            producto: _.pick(productoDB, ['_id', 'nombre', 'precioUni', 'descripcion', 'disponible', 'categoria', 'usuario', 'img'])
         });
     });
 });
@@ -157,7 +159,7 @@ app.put(route + '/:id', verificaToken, (req, res) => {
 
             return res.json({
                 ok: true,
-                producto: _.pick(productoDB, ['_id', 'nombre', 'precioUni', 'descripcion', 'disponible', 'categoria', 'usuario'])
+                producto: _.pick(productoDB, ['_id', 'nombre', 'precioUni', 'descripcion', 'disponible', 'categoria', 'usuario', 'img'])
             });
         });
 });
@@ -203,7 +205,7 @@ app.delete(route + '/:id', verificaToken, (req, res) => {
 
             return res.json({
                 ok: true,
-                producto: _.pick(productoDB, ['_id', 'nombre', 'precioUni', 'descripcion', 'disponible', 'categoria', 'usuario']),
+                producto: _.pick(productoDB, ['_id', 'nombre', 'precioUni', 'descripcion', 'disponible', 'categoria', 'usuario', 'img']),
                 message: 'Produto Eliminado'
             });
         });

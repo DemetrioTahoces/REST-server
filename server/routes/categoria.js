@@ -1,10 +1,10 @@
 const express = require('express');
 const _ = require('underscore');
 
+let Categoria = require('../models/categoria');
+
 const { verificaToken, verificaAdminRole } = require('../middlewares/autenticacion');
 const app = express();
-
-let Categoria = require('../models/categoria');
 
 route = '/categoria';
 
@@ -66,7 +66,7 @@ app.get(route + "/:id", verificaToken, (req, res) => {
                     });
                 }
 
-                return res.status(400).json({
+                return res.status(500).json({
                     ok: false,
                     error
                 });
